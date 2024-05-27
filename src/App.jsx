@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import TaskList from './components/TaskList';
-import './App.css';
+import useTaskManager from './hooks/useTaskManager'; // Importamos nuestro hook personalizado
 
 const App = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, name: 'Buy a new gaming laptop', completed: false },
-    { id: 2, name: 'Complete a previous task', completed: false },
-    { id: 3, name: 'Create a video for yoy tube', completed: true },
-    { id: 4, name: 'Create a Portofolio site', completed: true },
-  ]);
-
-  const addTask = (name) => {
-    const newTask = { id: tasks.length + 1, name, completed: false };
-    setTasks([...tasks, newTask]);
-  };
-
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
-  };
+  // Usamos nuestro hook personalizado para manejar las tareas
+  const { tasks, addTask, deleteTask, toggleTask, editTask } = useTaskManager();
 
   return (
-    <div className="App">
+    <div className="container">
       <Header />
-      <TaskList tasks={tasks} addTask={addTask} deleteTask={deleteTask} />
+      <TaskList 
+        tasks={tasks} 
+        toggleTask={toggleTask} 
+        deleteTask={deleteTask} 
+        addTask={addTask} 
+        editTask={editTask} 
+      />
     </div>
   );
 };

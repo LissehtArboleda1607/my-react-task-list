@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Task from './Task';
 
-const TaskList = ({ tasks, addTask, deleteTask }) => {
+const TaskList = ({ tasks, deleteTask, editTask, addTask }) => {
   const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskName.trim()) {
-      addTask(taskName);
+      addTask(taskName, taskDescription);
       setTaskName('');
+      setTaskDescription('');
     }
   };
 
@@ -19,12 +21,24 @@ const TaskList = ({ tasks, addTask, deleteTask }) => {
           type="text"
           value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
-          placeholder="Add your new to do"
+          placeholder="Add task title"
+        />
+        <input
+          type="text"
+          value={taskDescription}
+          onChange={(e) => setTaskDescription(e.target.value)}
+          placeholder="Add task description"
         />
         <button type="submit">Add Task</button>
       </form>
       {tasks.map((task) => (
-        <Task key={task.id} task={task} deleteTask={deleteTask} />
+        <div key={task.id} className="task-item">
+          <Task
+            task={task}
+            deleteTask={deleteTask}
+            editTask={editTask}
+          />
+        </div>
       ))}
     </div>
   );
